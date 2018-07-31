@@ -5,7 +5,7 @@ import App from './App'
 // import { Provider } from 'react-redux'
 // import thunk from 'react-thunk'
 // import { logger } from 'redux-logger'
-// import rootReducer from './reducers'
+// import reducer from './reducers'
 //
 // import { combineReducers, compose, createStore, applyMiddleware } from 'redux'
 //
@@ -14,7 +14,7 @@ import App from './App'
 //   middleware.push(logger)
 // }
 //
-// const store = createStore(rootReducer, applyMiddleware(...middleware))
+// const store = createStore(reducer, applyMiddleware(...middleware))
 
 ReactDOM.render(
     <App />,
