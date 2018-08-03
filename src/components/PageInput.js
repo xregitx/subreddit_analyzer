@@ -1,8 +1,11 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {Input, Icon} from 'antd'
 import 'antd/dist/antd.css'
-import {selectSubreddit} from '.././actions/'
 import {getRandomSubrredit} from '../RandomSubreddit'
+import connect from "react-redux/es/connect/connect";
+import {selectSubreddit, invalidateSubreddit, fetchPosts} from '.././actions'
+import Posts from '../components/Posts'
 
 const Search = Input.Search
 
@@ -17,7 +20,9 @@ class PageInput extends Component {
     }
 
     componentDidMount() {
-        // this.state.getSubredditPlaceholder = getRandomSubrredit()
+        const {dispatch, selectedSubreddit} = this.props
+        dispatch(fetchPosts(selectedSubreddit))
+        this.state.getSubredditPlaceholder = getRandomSubrredit()
         this.interval = setInterval(() => {
             this.setState({getSubredditPlaceholder: getRandomSubrredit()})
         }, 2500);
@@ -25,6 +30,13 @@ class PageInput extends Component {
 
     componentWillUnmount() {
         clearInterval(this.interval);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.selectedSubreddit !== this.props.selectedSubreddit) {
+            const { dispatch, selectedSubreddit } = nextProps
+            dispatch(fetchPosts(selectedSubreddit))
+        }
     }
 
     emitEmpty = () => {
@@ -36,14 +48,16 @@ class PageInput extends Component {
         this.setState({currentInput: e.target.value})
     }
 
-    handleChange = inputReddit => {
-        if (inputReddit === '')
-            console.log(this.state.getSubredditPlaceholder)
+    handleChange = input => {
+        if (input === '')
+            this.props.dispatch(selectSubreddit(this.state.getSubredditPlaceholder))
         else
-            console.log(inputReddit)
+            this.props.dispatch(selectSubreddit(input))
     }
 
     render() {
+        const {selectedSubreddit, posts, isFetching, lastUpdated} = this.props
+        const isEmpty = posts.length === 0;
         const {currentInput} = this.state
         const suffix = currentInput ? (
             <Icon type="close-circle" onClick={this.emitEmpty}/>
@@ -61,9 +75,42 @@ class PageInput extends Component {
                     size="large"
                     enterButton="/r/"
                 />
+                {isEmpty && <h1>Invalid</h1>}
+                <Posts posts={posts} />
             </div>
+
         )
     }
+
+    static propTypes = {
+        selectedSubreddit: PropTypes.string.isRequired,
+        posts: PropTypes.array.isRequired,
+        isFetching: PropTypes.bool.isRequired,
+        lastUpdated: PropTypes.number,
+        dispatch: PropTypes.func.isRequired
+    }
+
 }
 
-export default PageInput
+
+
+const mapStateToProps = state => {
+    const {selectedSubreddit, postsBySubreddit} = state
+    const {
+        isFetching,
+        lastUpdated,
+        items: posts
+    } = postsBySubreddit[selectedSubreddit] || {
+        isFetching: true,
+        items: []
+    }
+
+    return {
+        selectedSubreddit,
+        posts,
+        isFetching,
+        lastUpdated
+    }
+}
+export default connect(mapStateToProps)(PageInput)
+
