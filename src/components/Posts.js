@@ -1,68 +1,76 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import word_list from 'word-list'
 import connect from 'react-redux/es/connect/connect'
 
 class Posts extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      words: {}
+    constructor(props) {
+        super(props)
+        this.state = {
+            words: {}
 
 
-    }
-  }
-
-  componentDidUpdate() {
-    const { posts } = this.props
-    let list = posts.map((post) => post.title)
-    let temp = {}
-
-    for (let i = 0; i < list.length; i++) {
-      let words = list[i].split(' ')
-      words.replace
-      for (let j = 0; j < words.length; j++) {
-        let lc =words[j].toLowerCase()
-        if (temp[lc] == null)
-          temp[lc] = 1
-        else
-          temp[lc] =temp[words[j]]+ 1
-      }
+        }
     }
 
+    static countWords(count, str) {
+        for (let i = 0; i < str.length; i++) {
+            let words = str[i].split(' ')
+            for (let j = 0; j < words.length; j++) {
+                let lc = words[j].toLowerCase()
 
-    console.log(temp)
-    console.log('cwr')
-  }
+                lc = lc.replace(/[^\w\s]/gi, '')
+
+                if (count[lc] == null)
+                    count[lc] = 1
+                else
+                    count[lc] += 1
+            }
+        }
+    }
+
+    componentDidUpdate() {
+        const {posts} = this.props
+        let titles = posts.map((post) => post.selftext)
 
 
-  render() {
-    const { posts } = this.props
-    // console.log('rs')
-    return (
-      <ul>
-        {posts.map((post, i) => <li key={i}>{post.title}</li>)}
-      </ul>
-    )
-  }
+        let temp = {}
+        Posts.countWords(temp,titles)
 
-  static propTypes = {
-    posts: PropTypes.array.isRequired
-  }
+
+
+        for (const key of Object.keys(temp)) {
+            console.log(key, temp[key]);
+        }
+        console.log('cwr')
+    }
+
+
+    render() {
+        const {posts} = this.props
+        // console.log('rs')
+        return (
+            <ul>
+                {posts.map((post, i) => <li key={i}>{post.title}</li>)}
+            </ul>
+        )
+    }
+
+    static propTypes = {
+        posts: PropTypes.array.isRequired
+    }
 }
 
 const mapStateToProps = state => {
-  const { selectedSubreddit, postsBySubreddit } = state
-  const {
-    items: posts
-  } = postsBySubreddit[selectedSubreddit] || {
-    isFetching: true,
-    items: []
-  }
+    const {selectedSubreddit, postsBySubreddit} = state
+    const {
+        items: posts
+    } = postsBySubreddit[selectedSubreddit] || {
+        items: []
+    }
 
-  return {
-    posts
-  }
+    return {
+        posts
+    }
 }
 export default connect(mapStateToProps)(Posts)

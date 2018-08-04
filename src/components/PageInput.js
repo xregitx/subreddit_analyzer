@@ -75,7 +75,7 @@ class PageInput extends Component {
                     size="large"
                     enterButton="/r/"
                 />
-                {isEmpty && <h1>Invalid</h1>}
+                {isEmpty && <h1>Loading...</h1>}
             </div>
 
         )
