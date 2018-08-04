@@ -30,7 +30,7 @@ export const receivePosts = (subreddit, json) => ({
 //reddit allows to retrieve up to 100 posts.
 export const fetchPosts = subreddit => dispatch => {
     dispatch(requestPosts(subreddit))
-    let json = fetch(`${REDDIT_DOMAIN}/r/${subreddit}.json?limit=5`)
+    let json = fetch(`${REDDIT_DOMAIN}/r/${subreddit}.json?limit=100`)
         .then(response => response.json())
         .then(json => dispatch(receivePosts(subreddit, json)))
     return json;

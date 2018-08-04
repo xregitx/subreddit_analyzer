@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {Input, Icon} from 'antd'
 import 'antd/dist/antd.css'
 import {getRandomSubrredit} from '../RandomSubreddit'
-import connect from "react-redux/es/connect/connect";
+import {connect} from "react-redux";
 import {selectSubreddit, invalidateSubreddit, fetchPosts} from '.././actions'
 import Posts from '../components/Posts'
 
@@ -76,7 +76,6 @@ class PageInput extends Component {
                     enterButton="/r/"
                 />
                 {isEmpty && <h1>Invalid</h1>}
-                <Posts posts={posts} />
             </div>
 
         )
