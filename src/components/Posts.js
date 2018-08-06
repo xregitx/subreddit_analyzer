@@ -1,16 +1,15 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import connect from 'react-redux/es/connect/connect'
+import WordCloud from "./WordCloud";
+import _ from "lodash"
+
 
 class Posts extends Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-            words: {}
 
-
-        }
     }
 
     static countWords(count, str) {
@@ -29,29 +28,43 @@ class Posts extends Component {
         }
     }
 
-    componentDidUpdate() {
-        const {posts} = this.props
-        let titles = posts.map((post) => post.selftext)
 
+    render() {
+
+
+
+        const {posts} = this.props
+        let titles = posts.map((post) => post.title)
+        let wordCount = []
 
         let temp = {}
-        Posts.countWords(temp,titles)
-
+        Posts.countWords(temp, titles)
 
 
         for (const key of Object.keys(temp)) {
-            console.log(key, temp[key]);
+            // console.log(key, temp[key])
+            let obj = {text: key, value: temp[key]}
+            wordCount.push(obj)
         }
-        console.log('cwr')
-    }
+
+        let sortedWordCount = _.sortBy(wordCount, 'value').reverse()
+        // console.log(sortedWordCount)
+        let wordCountData = []
+        for (let i = 0; i < 150 || i < wordCountData.length; i++) {
+            console.log(sortedWordCount[i])
+            wordCountData.push(sortedWordCount[i])
+        }
+
+        // console.log(wordCount)
 
 
-    render() {
-        const {posts} = this.props
+        //   this.state.wordsCount = temp;
+
         // console.log('rs')
         return (
             <ul>
-                {posts.map((post, i) => <li key={i}>{post.title}</li>)}
+                {/*{posts.map((post, i) => <li key={i}>{post.title}</li>)}*/}
+                <WordCloud wordCount={wordCountData}/>
             </ul>
         )
     }
@@ -61,16 +74,5 @@ class Posts extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    const {selectedSubreddit, postsBySubreddit} = state
-    const {
-        items: posts
-    } = postsBySubreddit[selectedSubreddit] || {
-        items: []
-    }
 
-    return {
-        posts
-    }
-}
-export default connect(mapStateToProps)(Posts)
+export default Posts

@@ -56,7 +56,7 @@ class PageInput extends Component {
     }
 
     render() {
-        const {selectedSubreddit, posts, isFetching, lastUpdated} = this.props
+        const {selectedSubreddit, posts} = this.props
         const isEmpty = posts.length === 0;
         const {currentInput} = this.state
         const suffix = currentInput ? (
