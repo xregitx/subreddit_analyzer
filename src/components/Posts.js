@@ -1,11 +1,12 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import connect from 'react-redux/es/connect/connect'
 import WordCloud from "./WordCloud";
 import _ from "lodash"
+import TopWords from './TopWords'
 
 
-class Posts extends Component {
+class Posts extends PureComponent {
 
     constructor(props) {
         super(props)
@@ -50,7 +51,7 @@ class Posts extends Component {
         let sortedWordCount = _.sortBy(wordCount, 'value').reverse()
         // console.log(sortedWordCount)
         let wordCountData = []
-        for (let i = 0; i < 150 || i < wordCountData.length; i++) {
+        for (let i = 0; i < 150 && i < wordCount.length; i++) {
             console.log(sortedWordCount[i])
             wordCountData.push(sortedWordCount[i])
         }
@@ -65,6 +66,7 @@ class Posts extends Component {
             <ul>
                 {/*{posts.map((post, i) => <li key={i}>{post.title}</li>)}*/}
                 <WordCloud wordCount={wordCountData}/>
+                <TopWords topwords={wordCountData}/>
             </ul>
         )
     }
