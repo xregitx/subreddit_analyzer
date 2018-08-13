@@ -6,7 +6,7 @@ const TopWords = ({ topwords }) => {
   const res = []
 
   for (let i = 0; i < TOP_WORDS_LIMIT && i < topwords.length; i++) {
-    res.push(<li>{topwords[i].text} appears {topwords[i].value} times</li>)
+    res.push(<li>"{topwords[i].text}" appears {topwords[i].value} times</li>)
   }
   return (
     <ul>

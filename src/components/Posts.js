@@ -4,8 +4,12 @@ import connect from 'react-redux/es/connect/connect'
 import WordCloud from "./WordCloud";
 import _ from "lodash"
 import TopWords from './TopWords'
+import LineChartTopWords from './LineChartTopWords'
+import LineChartLinks from './LineChartLinks'
+import {countWords} from '../Util'
 
 
+const MAX_WORDS = 150
 class Posts extends PureComponent {
 
     constructor(props) {
@@ -13,33 +17,24 @@ class Posts extends PureComponent {
 
     }
 
-    static countWords(count, str) {
-        for (let i = 0; i < str.length; i++) {
-            let words = str[i].split(' ')
-            for (let j = 0; j < words.length; j++) {
-                let lc = words[j].toLowerCase()
-
-                lc = lc.replace(/[^\w\s]/gi, '')
-
-                if (count[lc] == null)
-                    count[lc] = 1
-                else
-                    count[lc] += 1
-            }
-        }
-    }
 
 
-    render() {
+
+  render() {
 
 
 
         const {posts} = this.props
         let titles = posts.map((post) => post.title)
+
+        // let selftext = posts.map((post) => post.selftext)
+        // Posts.countWords(temp, selftext)
+
         let wordCount = []
 
         let temp = {}
-        Posts.countWords(temp, titles)
+        countWords(temp, titles)
+
 
 
         for (const key of Object.keys(temp)) {
@@ -48,11 +43,13 @@ class Posts extends PureComponent {
             wordCount.push(obj)
         }
 
+        //remove white-space in the array.
+        wordCount = wordCount.filter( item => item.text !== "")
+
         let sortedWordCount = _.sortBy(wordCount, 'value').reverse()
         // console.log(sortedWordCount)
         let wordCountData = []
-        for (let i = 0; i < 150 && i < wordCount.length; i++) {
-            console.log(sortedWordCount[i])
+        for (let i = 0; i < MAX_WORDS && i < wordCount.length; i++) {
             wordCountData.push(sortedWordCount[i])
         }
 
@@ -64,9 +61,12 @@ class Posts extends PureComponent {
         // console.log('rs')
         return (
             <ul>
-                {/*{posts.map((post, i) => <li key={i}>{post.title}</li>)}*/}
                 <WordCloud wordCount={wordCountData}/>
-                <TopWords topwords={wordCountData}/>
+                {/*<TopWords topwords={wordCountData}/>*/}
+                <LineChartTopWords wordCountData = {wordCountData}/>
+                <LineChartLinks posts = {posts}/>
+
+
             </ul>
         )
     }

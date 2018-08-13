@@ -9,6 +9,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-autosuggest": "^9.3.4",
+    "recharts": "^1.1.0",
     "react-d3-cloud": "^0.6.0",
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.7",
@@ -19,7 +20,8 @@
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "2.3.0",
-    "word-list": "^2.0.0"
+    "word-list": "^2.0.0",
+    "d3-shape": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
