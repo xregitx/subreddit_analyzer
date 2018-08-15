@@ -15,9 +15,6 @@ function callback(key) {
 
 const MAX_WORDS = 150
 class Posts extends PureComponent {
-  constructor(props) {
-    super(props)
-  }
 
   render() {
     const { posts } = this.props

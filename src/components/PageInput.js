@@ -20,7 +20,6 @@ class PageInput extends Component {
   componentDidMount() {
     const { dispatch, selectedSubreddit } = this.props
     dispatch(fetchPosts(selectedSubreddit))
-    this.state.getSubredditPlaceholder = getRandomSubrredit()
     this.interval = setInterval(() => {
       this.setState({ getSubredditPlaceholder: getRandomSubrredit() })
     }, 2500)
