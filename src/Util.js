@@ -1,4 +1,4 @@
-import _ from "lodash"
+import _ from 'lodash'
 
 export function countWords(count, str) {
   for (let i = 0; i < str.length; i++) {
@@ -8,43 +8,33 @@ export function countWords(count, str) {
 
       lc = lc.replace(/[^\w\s]/gi, '')
 
-      if (count[lc] == null)
-        count[lc] = 1
-      else
-        count[lc] += 1
+      if (count[lc] == null) count[lc] = 1
+      else count[lc] += 1
     }
   }
 }
 
-export function countDomains( domains) {
+export function countDomains(domains) {
   let count = {}
 
   for (let i = 0; i < domains.length; i++) {
-    if (count[domains[i]] == null )
-      count[domains[i]] = 1
+    if (count[domains[i]] == null) count[domains[i]] = 1
     else {
       count[domains[i]] += 1
-
     }
   }
 
+  return count
 
-  return count;
-
-
-  // let obj = { name: domains[i], appear: 1 }
 }
 
-export function convertToRechartArray(countDomains){
-
-
-  let temp = [];
+export function convertToRechartArray(countDomains) {
+  let temp = []
   for (const key of Object.keys(countDomains)) {
-    let obj = {domain: key, value: countDomains[key]}
+    let obj = { domain: key, value: countDomains[key] }
     temp.push(obj)
   }
   console.log(temp)
 
   return _.sortBy(temp, 'value').reverse()
-
 }

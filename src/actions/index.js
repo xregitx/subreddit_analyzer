@@ -10,10 +10,6 @@ export const selectSubreddit = subreddit => ({
     subreddit
 })
 
-export const invalidateSubreddit = subreddit => ({
-    type: INVALIDATE_SUBREDDIT,
-    subreddit
-})
 
 export const requestPosts = subreddit => ({
     type: REQUEST_POSTS,
@@ -27,10 +23,10 @@ export const receivePosts = (subreddit, json) => ({
     receivedAt: Date.now()
 })
 
-//reddit allows to retrieve up to 100 posts.
+//reddit limits 100 posts for every get request.
 export const fetchPosts = subreddit => dispatch => {
     dispatch(requestPosts(subreddit))
-    let json = fetch(`${REDDIT_DOMAIN}/r/${subreddit}.json?limit=50`)
+    let json = fetch(`${REDDIT_DOMAIN}/r/${subreddit}.json?limit=100`)
         .then(response => response.json())
         .then(json => dispatch(receivePosts(subreddit, json)))
     return json;

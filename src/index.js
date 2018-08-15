@@ -7,24 +7,24 @@ import { createLogger } from 'redux-logger'
 import reducer from './reducers'
 import App from './App'
 
-const middleware = [ thunk ]
+const middleware = [thunk]
 if (process.env.NODE_ENV !== 'production') {
-    middleware.push(createLogger())
+  middleware.push(createLogger())
 }
 
 //enable chrome redux extenion
 const composeEnhancers =
-    typeof window === 'object' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
-        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-            // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-        }) : compose;
+  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+      })
+    : compose
 
 const enhancer = composeEnhancers(
-    applyMiddleware(...middleware),
-    // other store enhancers if any
-);
-const store = createStore(reducer, enhancer);
+  applyMiddleware(...middleware)
+  // other store enhancers if any
+)
+const store = createStore(reducer, enhancer)
 
 render(
   <Provider store={store}>

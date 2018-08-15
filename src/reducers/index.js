@@ -26,14 +26,7 @@ const postsBySubreddit = (state = {}, action) => {
     }
 }
 
-const isValidateSubreddit = (state= {}, action) => {
-    switch (action.type) {
-        case INVALIDATE_SUBREDDIT:
-            return false
-        default:
-            return true
-    }
-}
+
 
 const posts = (state = {
     items: []
@@ -58,8 +51,7 @@ const posts = (state = {
 
 const reducer = combineReducers({
     postsBySubreddit,
-    selectedSubreddit,
-    isValidateSubreddit
+    selectedSubreddit
 })
 
 export default reducer

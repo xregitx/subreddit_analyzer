@@ -20,10 +20,10 @@ const LineChartLinks = ({posts}) => {
     res.push(temp[i])
   }
 
-  for (let i = 0; i < res.length; i++) {
-    if(res[i].domain.toString().startsWith("self."))
-      res[i].domain = 'no link'
-  }
+  // for (let i = 0; i < res.length; i++) {
+  //   if(res[i].domain.toString().startsWith("self."))
+  //     res[i].domain = 'no link'
+  // }
 
   res = shuffle(res)
 
